@@ -1,0 +1,13 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+# Cypress videos
+cypress/videos
+cypress/screenshots
+cypress/.DS_Store
+# OS generated files
+.DS_Store
+Collapse
+
+Message #qa1
+
