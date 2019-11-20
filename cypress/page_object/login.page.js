@@ -11,4 +11,8 @@ get button() {
     return cy.get("button[type=submit]")
 }
 }
+
+//ovde mi treba register page odnosno login traziti od kolega
+
+
 export const authPage = new AuthPage()

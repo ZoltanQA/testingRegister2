@@ -1,5 +1,8 @@
 
 import { authPage } from '../../register/register.page'
+import {regPage} from '../../page_object/login.page'
+import {randomEmail} from '../../utils/index'
+
 
 describe('Register Page testing', function(){
 
@@ -14,18 +17,18 @@ describe('Register Page testing', function(){
         cy.url().should("include", "/register")
       })
 
-      it('Galery app check Register with valid data', function() {
-        authPage.firstName.type('Marko')
-        authPage.lastName.type('Markovic')
-        authPage.email.type('demoMail@yahoo.com')
-        authPage.password.type('demo1password')
+      it.only('Galery app check Register with valid data', function() {
+        authPage.firstName.type('Marko'),
+        authPage.lastName.type('Markovic'),
+        authPage.email.type(randomEmail())
+        authPage.password.type('demo1password'),
         authPage.passwordConfirmation.type('demo1password')
-
+        
         authPage.button.click()
-        cy.url().should("include", "/home")//ovo treba proveriti
+        cy.get('.nav-link').eq(3).should('contain', 'Logout')
 
-        //ovde bi trebalo napisati da treba da nas prebaci na stranicu sa sledeim url
-        //i da ta stranica treba da sadrzi link my galleris ili logout opciju
+        //cy.get('/').should('have.text', 'The password confirmation does not match.')
+        //ovde trebam da to sto sam getovao u register.page.js da upisem u contains should.constains('Logout')
       })
 
       it('Galery app check Register with no firts name', function() {
@@ -38,7 +41,7 @@ describe('Register Page testing', function(){
         authPage.button.click()
 
         regPage.firstName.then(($input)=>{
-          expect($input[0].validationMessage).to.eq('PLease fill out this field.')
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
         })
       })
 
@@ -52,7 +55,7 @@ describe('Register Page testing', function(){
         authPage.button.click()
         
         regPage.lastName.then(($input)=>{
-          expect($input[0].validationMessage).to.eq('PLease fill out this field.')
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
         })
       })
 
@@ -101,7 +104,7 @@ describe('Register Page testing', function(){
         authPage.button.click()
 
         regPage.email.then(($input)=>{
-          expect($input[0].validationMessage).to.eq('PLease fill out this field.')
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
         })
         
       })
@@ -132,7 +135,7 @@ describe('Register Page testing', function(){
         authPage.button.click()
 
         regPage.password.then(($input)=>{
-          expect($input[0].validationMessage).to.eq('PLease fill out this field.')
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
         })
 
       })
@@ -147,7 +150,7 @@ describe('Register Page testing', function(){
         authPage.button.click()
         
         regPage.password.then(($input)=>{
-          expect($input[0].validationMessage).to.eq('PLease fill out this field.')
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
         })
       })
       it('Galery app check Register with mis-matched password', function() {
