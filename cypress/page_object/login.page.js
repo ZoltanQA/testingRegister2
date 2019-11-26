@@ -8,11 +8,24 @@ get password() {
     return cy.get('input[id="password"]')
 }
 get button() {
-    return cy.get("button[type=submit]")
+    return cy.get('button[type="submit"]')
 }
+/*
+get navButton() {
+    return cy.get("nav-buttons[type=create gallery]")
 }
+*/
 
-//ovde mi treba register page odnosno login traziti od kolega
+get alert() {
+    return cy.get('.alert-danger')
+  }
 
+login(email, password) {
+    this.email.type(email)
+    this.password.type(password)
+    this.button.click()
+  }
+
+}
 
 export const authPage = new AuthPage()

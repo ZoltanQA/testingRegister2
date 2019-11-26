@@ -1,24 +1,28 @@
+import { randomEmail } from "../utils"
+
 export default class AuthPage{
     get firstName() {
-        return cy.get('input[id="first-name"]')
+        return cy.get('#first-name')
     }
     get lastName() {
-        return cy.get('input[id="last-name"]')
-        //return cy.get('#last-name')- ovako se pise pravilno
+        //return cy.get('input[id="last-name"]')-stara verzija
+        return cy.get('#last-name')
+        
     }
     get email() {
-        return cy.get('input[id="email"]')
+        return cy.get('#email')
     }
     get password() {
-        return cy.get('input[id="password"]')
+        return cy.get('#password')
     }
     get passwordConfirmation() {
-        return cy.get('input[id="password-confirmation"]')
+        return cy.get('#password-confirmation')
     }
 
-    /*get checkbox() {
-        return cy.get('check-box-nesto'proveriti)
-    }*/
+    get checkBox() {
+        return cy.get('.form-check-input')
+      }
+    //ovako se hvata check-box
 
     get button() {
         return cy.get("button[type=submit]")
@@ -27,18 +31,30 @@ export default class AuthPage{
     //ovde bih trebao da getujem element te klase za logout button
 
     register({firstName, lastName, email, password, passwordConfirmation}){
-        this.firstName.type(firstName)
-        this.lastName.type(lastName)
-        this.email.type(email)
-        this.password.type(password)
-        this.passwordConfirmation.type(passwordConfirmation)
+        this.firstName.type(this.ifExist(firstName))
+        this.lastName.type(this.ifExist(lastName))
+        this.email.type(this.ifExist(email))
+        this.password.type(this.ifExist(password))
+        this.passwordConfirmation.type(this.ifExist(passwordConfirmation))
+        this.checkBox.click()
         this.button.click()
     }
     ifExist(postoji){
         if (!postoji) {
-            postoji = 'validata'
+            postoji = 'validata@gmail.com'
         } return postoji
     }
+    /*
+    ifMailExist(postoji){
+        if (!postoji) {
+            postoji = 'validata@gmail.com'
+        } return postoji
+    } */
+
+    registerCheck({name, lastName, email, password, passwordConfirmation}) {
+        this.checkBox.click()
+        this.register({name, lastName, email, password, passwordConfirmation})
+      }
 
     }
     export const authPage = new AuthPage()

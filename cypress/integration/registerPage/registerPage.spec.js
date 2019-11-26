@@ -1,6 +1,6 @@
-
+import { REGISTER } from '../../fixtures/constants'
 import { authPage } from '../../register/register.page'
-import {regPage} from '../../page_object/login.page'
+//import {regPage} from '../../page_object/login.page'
 import {randomEmail} from '../../utils/index'
 
 
@@ -13,23 +13,85 @@ describe('Register Page testing', function(){
       })
 
 
-      it('Galery app check Register', function() {
+      it('TC - 01 Galery app check Register', function() {
         cy.url().should("include", "/register")
       })
 
-      it.only('Galery app check Register with valid data', function() {
-        authPage.firstName.type('Marko'),
-        authPage.lastName.type('Markovic'),
-        authPage.email.type(randomEmail())
-        authPage.password.type('demo1password'),
-        authPage.passwordConfirmation.type('demo1password')
-        
-        authPage.button.click()
-        cy.get('.nav-link').eq(3).should('contain', 'Logout')
+      it('TC - 02 Register to galery app', function() {
+        authPage.registerCheck({
+          
+        })
+    })
 
-        //cy.get('/').should('have.text', 'The password confirmation does not match.')
-        //ovde trebam da to sto sam getovao u register.page.js da upisem u contains should.constains('Logout')
+      it('TC - 03 Register to galery with empty name field', function() {
+        authPage.register({ firstName: ' '  })
+      
+        cy.get('.alert-danger').eq(0).contains('The first name field is required.')
+        cy.get('.alert-danger').eq(1).contains('The email must be a valid email address.')
+        cy.get('.alert-danger').eq(2).contains('The password format is invalid.').click()
+       
       })
+
+      it('TC - 04 Register to galery app with ivalid email', function() {
+        authPage.register({email: 'marko.markovic.gmail.com'})
+
+        cy.get('.alert-danger').eq(0).contains('The email must be a valid email address.').click()
+        // ovu poruku ne znam da resim
+
+        /*
+        authPage.email.then(($input) => {
+            expect($input[0].validationMessage).to.eq('Please fill out this field.')
+        })*/
+    })
+    it('TC - 04 Register to galery with empty last name field', function() {
+      authPage.register({ lastName: ' '  })
+    
+      cy.get('.alert-danger').eq(0).contains('The last name field is required.')
+      cy.get('.alert-danger').eq(1).contains('The email must be a valid email address.')
+      cy.get('.alert-danger').eq(2).contains('The password format is invalid.').click()
+     
+    })
+
+    it('TC - 05 Register to galery with no email', function() {
+      authPage.register({ email: ' '  })
+
+      authPage.email.then(($input)=>{
+        expect($input[0].validationMessage).to.eq('Please fill out this field.')
+      })
+     
+    })
+
+    it('TC - 06 Check register to galery with no password', function() {
+      authPage.register({ password: ' ' ,passwordConfirmation: ' ' })
+
+      cy.get('.alert-danger').eq(0).contains('The password field is required.')
+    k
+     
+    })
+
+    it('TC - 07 Check register to galery with mismatched password', function() {
+      authPage.register({ password: 'marko123 ' ,passwordConfirmation: '123marko ' })
+
+      cy.get('.alert-danger').eq(0).contains('The password confirmation does not match.')
+     
+    })
+
+    it.only('TC - 08 Check register to galery with used email', function() {
+      authPage.register({ email: 'zoki.juhas@yahoo.com' })
+
+      cy.get('.alert-danger').eq(0).contains('The email has already been taken.')
+      cy.get('.alert-danger').eq(1).contains('The password format is invalid.')
+    
+    }) 
+
+
+
+
+
+
+    /*
+
+
 
       it('Galery app check Register with no firts name', function() {
         authPage.firstName.type('')
@@ -284,5 +346,5 @@ describe('Register Page testing', function(){
         authPage.button.click()
         
         cy.get('.alert-danger').should('have.text', 'The email has already been taken.') 
-      })
+      })*/
 });
