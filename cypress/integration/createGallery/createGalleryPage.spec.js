@@ -8,8 +8,9 @@ describe('Create Page testing', function(){
 
 
     beforeEach(()=>{
-        cy.visit('/login')
-        authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
+        //cy.visit('/login')
+        //authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
+         cy.login(EMAIL.EXISTING, EMAIL.PASSWORD)
       })
 
 
@@ -138,7 +139,7 @@ describe('Create Page testing', function(){
 
     })
 
-    it.only('TC- 10 up and down functionaliti functionaliti', function(){
+    it('TC- 10 up and down functionaliti functionaliti', function(){
 
         var random = randomTitle()
         var pTrumpet= "https://i.pinimg.com/736x/a9/4a/43/a94a4359cbf1808f5cd0df9353501022--game-party-xavier.jpg";
@@ -151,14 +152,63 @@ describe('Create Page testing', function(){
         homePage.addButton.click()
         homePage.image.eq(1).type(pLeaf)
         cy.get('.fa-chevron-circle-up').eq(1).click()
-       // homePage.image.eq(0).type(pLeaf)
-        //homePage.image.eq(1).type(pTrumpet)dss
 
-        cy.get(homePage.image).eq(1).should('contain', pTrumpet)
-
-        //cy.get('url').eq(1).should('contain', pTrumpet)
-        
-
+        //cy.get('homePage.image').eq(1).should('have.value', pTrumpet)
+        cy.get('input[type="url"]').eq(1).should('have.value', pTrumpet)
     })
+
+      it('TC - 01 Galery app - paginatiom load more count 9', function() {
+        cy.server()
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC9.json').as('stub')
+        cy.get('.btn-custom').should('not.exist')
+
+      
+      })
+
+      it('TC - Galery app - paginatiom load more count 10', function() {
+        cy.server()
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC10.json').as('stub')
+        cy.get('.btn-custom').should('not.exist')
+      
+      })
+
+        it('TC - 01 Galery app - paginatiom load more count 11', function() {
+        cy.server()
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC11.json').as('stub')
+        cy.get('.btn-custom').should('exist')
+      
+      })
+
+      it('TC - 04 Galery app - CHECK paginatiom load more count 9', function() {
+        cy.server()
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC9.json').as('stub')
+        cy.visit('/')
+        cy.get('.cell').eq(8).should('exist')
+        cy.get('.cell').eq(9).should('not.exist')
+
+      
+      })
+
+      it('TC - 04 Galery app - paginatiom load more count 10', function() {
+        cy.server()
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC10.json').as('stub')
+        cy.visit('/')
+        cy.get('.cell').eq(9).should('exist')
+        cy.get('.cell').eq(10).should('not.exist')
+
+      
+      })
+
+        it.only('TC - domaci Galery app - paginatiom load more count 11', function() {
+        cy.server()
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC10.json').as('stub')
+        cy.visit('/')
+        
+        cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=2&term=', 'fixture:galleryC1.json').as('stubgg')
+       // cy.get('.cell').eq(10).should('exist') 
+        cy.get('.btn-custom').click()
+
+        cy.get('.cell').eq(10).should('exist') 
+      })
 
 })
