@@ -45,3 +45,32 @@ Cypress.Commands.add('login', (email, password) => {
        cy.visit('/')
     }) 
   })
+
+  Cypress.Commands.add('login1', (email, password) => {
+    Cypress.log({
+      name: 'loginByForm',
+      message: email + ' | ' + password
+    })
+    cy.request({
+      method: 'POST',
+      url: Cypress.config('backendUrl') + 'auth/login',
+      form: true,
+      followRedirect: true,
+      body: {
+        email: email,
+        password: password,
+      }
+    }).
+    then((resp)=>{
+       expect(resp.body).to.have.property('token')
+       localStorage.setItem('token', resp.body.token)
+       cy.visit('/')
+    }) 
+  })
+
+  //promenjeno na login1, moram da ubacim novu varijablu pod nekim imenom koji ce imati 
+  //kao backand url u cypress.json fajl, ne zaboravi na zarez posle nove varijable za url
+  //bilo koji naziv, da promnim path pored toga
+  //treba da proverim preko inspecta ime tokena
+  //i onda po novom imenu pozivati 
+  

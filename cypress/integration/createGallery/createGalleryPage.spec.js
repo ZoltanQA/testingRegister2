@@ -165,14 +165,14 @@ describe('Create Page testing', function(){
       
       })
 
-      it('TC - Galery app - paginatiom load more count 10', function() {
+      it('TC - 02 Galery app - paginatiom load more count 10', function() {
         cy.server()
         cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC10.json').as('stub')
         cy.get('.btn-custom').should('not.exist')
       
       })
 
-        it('TC - 01 Galery app - paginatiom load more count 11', function() {
+        it('TC - 03 Galery app - paginatiom load more count 11', function() {
         cy.server()
         cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC11.json').as('stub')
         cy.get('.btn-custom').should('exist')
@@ -189,7 +189,7 @@ describe('Create Page testing', function(){
       
       })
 
-      it('TC - 04 Galery app - paginatiom load more count 10', function() {
+      it('TC - 05 Galery app - paginatiom load more count 10', function() {
         cy.server()
         cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC10.json').as('stub')
         cy.visit('/')
@@ -199,7 +199,7 @@ describe('Create Page testing', function(){
       
       })
 
-        it.only('TC - domaci Galery app - paginatiom load more count 11', function() {
+        it.only('TC 06- HW Galery app - paginatiom load more count 11', function() {
         cy.server()
         cy.route('GET',Cypress.config('backendUrl') + 'galleries?page=1&term=', 'fixture:galleryC10.json').as('stub')
         cy.visit('/')
